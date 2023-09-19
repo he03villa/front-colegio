@@ -1,0 +1,30 @@
+<form [formGroup]="form">
+    <label for="">Profesor</label>
+    <mat-form-field>
+        <mat-label>Profesor</mat-label>
+        <mat-select formControlName="profesor">
+            <mat-option *ngFor="let item of arrayProfesor" [value]="item.id">
+            {{ item.nombre }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+        validation: 'required',
+        message: 'El profesor es requerido',
+        control: form.controls['profesor'],
+        clase: 'black'
+    }"></ng-container>
+    <div class="container-btn">
+        <button [disabled]="form.invalid" (click)="save()">Aceptar</button>
+        <button (click)="salirModal()">Salir</button>
+    </div>
+</form>
+<ng-template #formError let-control="control" let-message="message" let-clase="clase" let-validation="validation">
+    <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+      <div class="fv-plugins-message-container">
+        <span role="alert" [ngClass]="clase">
+          {{ message }}
+        </span>
+      </div>
+    </ng-container>
+</ng-template>
